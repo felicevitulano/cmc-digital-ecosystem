@@ -1,0 +1,138 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+
+@theme {
+  --color-cmc-dark: #1A1A2E;
+  --color-cmc-darker: #0F0F1A;
+  --color-cmc-lime: #E91E8C;
+  --color-cmc-gray: #F4F5F7;
+  --color-cmc-mid: #9CA3AF;
+  --color-cmc-text: #1A1A2E;
+  --color-cmc-text-light: #6B7280;
+  --color-cmc-white: #ffffff;
+  --color-cmc-danger: #EF4444;
+  --color-cmc-success: #10B981;
+  --color-cmc-warning: #F59E0B;
+  --color-cmc-info: #3b82f6;
+  --color-cmc-border: #E5E7EB;
+  --color-cmc-card: #ffffff;
+  --color-cmc-page-bg: #F4F5F7;
+  --font-family-sans: 'Nunito', sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: 'Nunito', sans-serif;
+  color: #1A1A2E;
+  background: #F4F5F7;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Growthix-style card */
+.g-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+/* Growthix-style pill tabs */
+.g-pill {
+  padding: 8px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.g-pill-active {
+  background: #E91E8C;
+  color: #ffffff;
+}
+
+.g-pill-inactive {
+  background: transparent;
+  color: #6B7280;
+}
+
+.g-pill-inactive:hover {
+  color: #1A1A2E;
+  background: #F4F5F7;
+}
+
+/* Growthix-style status badges */
+.g-badge {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Search input */
+.g-search {
+  width: 100%;
+  padding: 10px 16px 10px 40px;
+  background: #F4F5F7;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.g-search:focus {
+  border-color: #E91E8C;
+  box-shadow: 0 0 0 3px rgba(233, 30, 140, 0.15);
+}
+
+/* Table hover */
+.g-table-row {
+  transition: background 0.15s ease;
+}
+
+.g-table-row:hover {
+  background: #FAFBFC;
+}
+
+/* Sidebar nav active state */
+.g-nav-active {
+  background: #E91E8C;
+  color: #ffffff;
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+.g-nav-inactive {
+  color: #6B7280;
+  border-radius: 12px;
+}
+
+.g-nav-inactive:hover {
+  color: #1A1A2E;
+  background: #F4F5F7;
+}
+
+/* Smooth scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D1D5DB;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9CA3AF;
+}
