@@ -2,28 +2,39 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useStore } from '../hooks/useStore';
 import { useTranslation } from '../hooks/useTranslation';
-import { ArrowLeft, Trash2, Plus, Minus, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, Trash2, Plus, Minus, CheckCircle2, ShoppingCart } from 'lucide-react';
+import { useToast } from '../components/Toast';
+import EmptyState from '../components/EmptyState';
 
 export default function Cart() {
   const { cart, removeFromCart, updateCartQuantity, clearCart } = useStore();
-  const { t } = useTranslation();
+  const { t, locale } = useTranslation();
+  const toast = useToast();
   const [orderSent, setOrderSent] = useState(false);
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   const handleSendOrder = () => {
     setOrderSent(true);
+    toast.add(locale === 'it' ? 'Ordine inviato con successo!' : 'Order sent successfully!', 'success');
     setTimeout(() => {
       clearCart();
       setOrderSent(false);
     }, 3000);
   };
 
+  const handleRemove = (partCode: string) => {
+    removeFromCart(partCode);
+    toast.add(locale === 'it' ? 'Articolo rimosso dal carrello' : 'Item removed from cart', 'info');
+  };
+
   if (orderSent) {
     return (
       <div className="flex flex-col items-center justify-center py-20">
-        <CheckCircle2 size={64} className="text-cmc-success mb-4" />
-        <h2 className="text-xl font-extrabold text-cmc-text mb-2">{t('orderSent')}</h2>
+        <div className="success-pop">
+          <CheckCircle2 size={64} className="text-cmc-success mb-4" />
+        </div>
+        <h2 className="text-xl font-extrabold text-cmc-text mb-2 page-enter">{t('orderSent')}</h2>
       </div>
     );
   }
@@ -36,8 +47,8 @@ export default function Cart() {
       <h1 className="text-2xl font-extrabold text-cmc-text">{t('cart')}</h1>
 
       {cart.length === 0 ? (
-        <div className="g-card p-12 text-center text-cmc-text-light">
-          {t('emptyCart')}
+        <div className="g-card">
+          <EmptyState icon={ShoppingCart} title={t('emptyCart')} description={locale === 'it' ? 'Aggiungi ricambi dal configuratore' : 'Add spare parts from the configurator'} actionLabel={locale === 'it' ? 'Vai ai ricambi' : 'Go to spare parts'} onAction={() => window.history.back()} />
         </div>
       ) : (
         <>
@@ -72,7 +83,7 @@ export default function Cart() {
                     </td>
                     <td className="px-6 py-4 text-right font-bold text-sm text-cmc-text">&euro;{(item.price * item.quantity).toLocaleString()}</td>
                     <td className="px-6 py-4">
-                      <button onClick={() => removeFromCart(item.partCode)} className="text-cmc-text-light hover:text-cmc-danger transition-colors p-1.5 hover:bg-red-50 rounded-lg">
+                      <button onClick={() => handleRemove(item.partCode)} className="btn-press text-cmc-text-light hover:text-cmc-danger transition-colors p-1.5 hover:bg-red-50 rounded-lg">
                         <Trash2 size={16} />
                       </button>
                     </td>
@@ -87,7 +98,7 @@ export default function Cart() {
               <span className="text-sm text-cmc-text-light">{t('totalItems')}: {cart.reduce((s, c) => s + c.quantity, 0)}</span>
               <div className="text-2xl font-extrabold text-cmc-text">{t('total')}: &euro;{total.toLocaleString()}</div>
             </div>
-            <button onClick={handleSendOrder} className="px-8 py-3 bg-cmc-lime text-white font-bold rounded-xl hover:bg-cmc-lime/80 transition-colors">
+            <button onClick={handleSendOrder} className="btn-press px-8 py-3 bg-cmc-lime text-white font-bold rounded-xl hover:bg-cmc-lime/80 transition-colors">
               {t('sendOrder')}
             </button>
           </div>

@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from '../hooks/useTranslation';
 import { faqs } from '../data/mockData';
-import { Bot, Play, Search, Wrench, Shield, Settings, AlertTriangle } from 'lucide-react';
+import { Bot, Play, Search, Wrench, Shield, Settings, AlertTriangle, HelpCircle } from 'lucide-react';
+import EmptyState from '../components/EmptyState';
 
 const categoryIcons = {
   maintenance: Wrench,
@@ -32,14 +33,14 @@ export default function Tutorials() {
         <h1 className="text-2xl font-extrabold text-cmc-text">{t('tutorials')}</h1>
         <Link
           to="/tutorial/assistant"
-          className="flex items-center gap-2 px-4 py-2.5 bg-cmc-lime text-white font-bold rounded-xl hover:bg-cmc-lime/80 transition-colors"
+          className="btn-press flex items-center gap-2 px-4 py-2.5 bg-cmc-lime text-white font-bold rounded-xl hover:bg-cmc-lime/80 transition-colors"
         >
           <Bot size={18} /> {t('aiAssistant')}
         </Link>
       </div>
 
       {/* Category cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 stagger">
         {categories.map((cat) => {
           const Icon = categoryIcons[cat as keyof typeof categoryIcons];
           const count = faqs.filter((f) => f.category === cat).length;
@@ -48,7 +49,7 @@ export default function Tutorials() {
             <button
               key={cat}
               onClick={() => setCategoryFilter(isActive ? '' : cat)}
-              className={`g-card p-4 text-left transition-all ${isActive ? 'ring-2 ring-cmc-lime bg-cmc-lime/10' : 'hover:shadow-md'}`}
+              className={`btn-press g-card p-4 text-left transition-all ${isActive ? 'ring-2 ring-cmc-lime bg-cmc-lime/10' : 'hover:shadow-md'}`}
             >
               <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-2 ${isActive ? 'bg-cmc-lime' : 'bg-cmc-gray'}`}>
                 <Icon size={20} className={isActive ? 'text-cmc-darker' : 'text-cmc-text-light'} />
@@ -73,7 +74,7 @@ export default function Tutorials() {
       </div>
 
       {/* FAQ list */}
-      <div className="space-y-3">
+      <div className="space-y-3 stagger">
         {filtered.map((faq) => {
           const Icon = categoryIcons[faq.category as keyof typeof categoryIcons];
           return (
@@ -104,7 +105,7 @@ export default function Tutorials() {
           );
         })}
         {filtered.length === 0 && (
-          <div className="text-center py-12 text-cmc-text-light">{t('noResults')}</div>
+          <EmptyState icon={HelpCircle} title={t('noResults')} description={locale === 'it' ? 'Nessun tutorial trovato per questa ricerca' : 'No tutorials found for this search'} />
         )}
       </div>
     </div>

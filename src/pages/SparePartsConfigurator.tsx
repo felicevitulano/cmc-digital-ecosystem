@@ -4,6 +4,7 @@ import { useStore } from '../hooks/useStore';
 import { useTranslation } from '../hooks/useTranslation';
 import { parts, machineModels, type Part } from '../data/mockData';
 import { ArrowLeft, ShoppingCart, Search, Check } from 'lucide-react';
+import { useToast } from '../components/Toast';
 
 export default function SparePartsConfigurator() {
   const { modelId } = useParams();
@@ -12,6 +13,7 @@ export default function SparePartsConfigurator() {
   const [selectedPart, setSelectedPart] = useState<Part | null>(null);
   const [search, setSearch] = useState('');
   const [addedFeedback, setAddedFeedback] = useState<string | null>(null);
+  const toast = useToast();
 
   const model = machineModels.find((m) => m.id === modelId);
   const modelParts = parts.filter((p) =>
@@ -23,6 +25,7 @@ export default function SparePartsConfigurator() {
   const handleAddToCart = (part: Part) => {
     addToCart({ partCode: part.code, description: locale === 'it' ? part.description : part.descriptionEn, price: part.price });
     setAddedFeedback(part.code);
+    toast.add(locale === 'it' ? `${part.code} aggiunto al carrello` : `${part.code} added to cart`, 'success');
     setTimeout(() => setAddedFeedback(null), 1500);
   };
 

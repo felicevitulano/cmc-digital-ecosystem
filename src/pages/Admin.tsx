@@ -20,9 +20,9 @@ export default function Admin() {
       <h1 className="text-2xl font-extrabold text-cmc-text">{t('adminDashboard')}</h1>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 stagger">
         {stats.map((s, i) => (
-          <div key={i} className="g-card p-5">
+          <div key={i} className="g-card p-5 hover:shadow-md transition-all">
             <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3 ${s.color}`}>
               <s.icon size={20} />
             </div>

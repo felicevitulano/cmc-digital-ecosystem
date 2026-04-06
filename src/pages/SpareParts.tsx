@@ -11,7 +11,7 @@ export default function SpareParts() {
       <h1 className="text-2xl font-extrabold text-cmc-text">{t('selectModel')}</h1>
       <p className="text-cmc-text-light text-sm">{t('clickComponentHint')}</p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 stagger">
         {machineModels.map((m) => (
           <Link
             key={m.id}

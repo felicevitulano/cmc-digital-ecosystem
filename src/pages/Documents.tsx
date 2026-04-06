@@ -3,6 +3,7 @@ import { useTranslation } from '../hooks/useTranslation';
 import { useStore } from '../hooks/useStore';
 import { documents, type DocCategory } from '../data/mockData';
 import { Search, FileText, Download, Lock, Film, FileSpreadsheet, File } from 'lucide-react';
+import EmptyState from '../components/EmptyState';
 
 const fileIcons: Record<string, typeof FileText> = {
   pdf: FileText,
@@ -77,7 +78,7 @@ export default function Documents() {
       </div>
 
       {/* Documents grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 stagger">
         {filtered.map((doc) => {
           const Icon = fileIcons[doc.fileType] || FileText;
           return (
@@ -114,7 +115,7 @@ export default function Documents() {
               </div>
               <div className="mt-4 pt-3 border-t border-cmc-border flex items-center justify-between">
                 <span className="text-xs text-cmc-text-light">{t('updated')}: {doc.updatedAt}</span>
-                <button className="flex items-center gap-1.5 text-sm font-bold text-cmc-darker hover:text-cmc-text transition-colors bg-cmc-gray px-3 py-1.5 rounded-lg hover:bg-cmc-lime/20">
+                <button className="btn-press flex items-center gap-1.5 text-sm font-bold text-cmc-darker hover:text-cmc-text transition-colors bg-cmc-gray px-3 py-1.5 rounded-lg hover:bg-cmc-lime/20">
                   <Download size={14} /> {t('download')}
                 </button>
               </div>
@@ -122,7 +123,9 @@ export default function Documents() {
           );
         })}
         {filtered.length === 0 && (
-          <div className="col-span-full text-center py-12 text-cmc-text-light">{t('noResults')}</div>
+          <div className="col-span-full">
+            <EmptyState icon={FileText} title={t('noResults')} description={locale === 'it' ? 'Prova a modificare i filtri di ricerca' : 'Try adjusting your search filters'} />
+          </div>
         )}
       </div>
     </div>

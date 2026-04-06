@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useStore } from './hooks/useStore';
 import Layout from './components/Layout';
+import ToastContainer from './components/Toast';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Orders from './pages/Orders';
@@ -28,6 +29,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <BrowserRouter basename="/cmc-digital-ecosystem">
+      <ToastContainer />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route

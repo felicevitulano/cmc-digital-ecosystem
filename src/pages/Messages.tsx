@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { useTranslation } from '../hooks/useTranslation';
 import { messages as messagesData } from '../data/mockData';
-import { Mail, MailOpen, Paperclip, ChevronRight, ArrowLeft } from 'lucide-react';
+import { Mail, MailOpen, Paperclip, ChevronRight, ArrowLeft, Inbox } from 'lucide-react';
+import { useToast } from '../components/Toast';
+import EmptyState from '../components/EmptyState';
 
 export default function Messages() {
   const { t, locale } = useTranslation();
+  const toast = useToast();
   const [msgs, setMsgs] = useState(messagesData);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [tab, setTab] = useState<'inbox' | 'archived'>('inbox');
@@ -17,8 +20,15 @@ export default function Messages() {
   };
 
   const toggleArchive = (id: string) => {
+    const msg = msgs.find((m) => m.id === id);
     setMsgs((prev) => prev.map((m) => (m.id === id ? { ...m, archived: !m.archived } : m)));
     setSelectedId(null);
+    toast.add(
+      msg?.archived
+        ? (locale === 'it' ? 'Messaggio ripristinato' : 'Message restored')
+        : (locale === 'it' ? 'Messaggio archiviato' : 'Message archived'),
+      'success'
+    );
   };
 
   if (selected) {
@@ -40,7 +50,7 @@ export default function Messages() {
             <div className="flex gap-2">
               <button
                 onClick={() => toggleArchive(selected.id)}
-                className="px-4 py-2 text-sm font-semibold bg-cmc-gray rounded-xl hover:bg-cmc-lime/20 transition-colors"
+                className="btn-press px-4 py-2 text-sm font-semibold bg-cmc-gray rounded-xl hover:bg-cmc-lime/20 transition-colors"
               >
                 {t('archive')}
               </button>
@@ -70,13 +80,13 @@ export default function Messages() {
       <div className="flex gap-1 bg-white rounded-xl p-1.5 w-fit" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
         <button
           onClick={() => setTab('inbox')}
-          className={`g-pill ${tab === 'inbox' ? 'g-pill-active' : 'g-pill-inactive'}`}
+          className={`g-pill btn-press ${tab === 'inbox' ? 'g-pill-active' : 'g-pill-inactive'}`}
         >
           {t('inbox')} ({msgs.filter((m) => !m.archived).length})
         </button>
         <button
           onClick={() => setTab('archived')}
-          className={`g-pill ${tab === 'archived' ? 'g-pill-active' : 'g-pill-inactive'}`}
+          className={`g-pill btn-press ${tab === 'archived' ? 'g-pill-active' : 'g-pill-inactive'}`}
         >
           {t('archived')}
         </button>
@@ -85,7 +95,7 @@ export default function Messages() {
       {/* Messages */}
       <div className="g-card overflow-hidden">
         {filtered.length === 0 ? (
-          <div className="p-12 text-center text-cmc-text-light">{t('noMessages')}</div>
+          <EmptyState icon={Inbox} title={t('noMessages')} description={tab === 'archived' ? (locale === 'it' ? 'Nessun messaggio archiviato' : 'No archived messages') : (locale === 'it' ? 'La tua inbox è vuota' : 'Your inbox is empty')} />
         ) : (
           filtered.map((msg) => (
             <button

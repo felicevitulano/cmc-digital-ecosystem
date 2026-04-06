@@ -10,12 +10,12 @@ export default function Machines() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-extrabold text-cmc-text">{t('myMachines')}</h1>
-        <button className="flex items-center gap-2 px-4 py-2.5 bg-cmc-lime text-white font-bold rounded-xl hover:bg-cmc-lime/80 transition-colors">
+        <button className="btn-press flex items-center gap-2 px-4 py-2.5 bg-cmc-lime text-white font-bold rounded-xl hover:bg-cmc-lime/80 transition-colors">
           <Plus size={18} /> {t('registerMachine')}
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 stagger">
         {userMachines.map((machine) => {
           const warrantyValid = new Date(machine.warrantyExpiry) > new Date();
           const urgentAlerts = machine.nextMaintenanceDue.filter((a) => a.status !== 'OK');

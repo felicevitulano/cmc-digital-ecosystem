@@ -1,4 +1,4 @@
-import { Outlet, NavLink, useNavigate } from 'react-router-dom';
+import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useStore } from '../hooks/useStore';
 import { useTranslation } from '../hooks/useTranslation';
 import {
@@ -10,6 +10,7 @@ export default function Layout() {
   const { user, logout, cart, sidebarOpen, toggleSidebar, locale, setLocale } = useStore();
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
 
   if (!user) return null;
 
@@ -98,7 +99,7 @@ export default function Layout() {
         {/* Header */}
         <header className="h-16 bg-white border-b border-cmc-border flex items-center justify-between px-6 flex-shrink-0" style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.04)' }}>
           <div className="flex items-center gap-4">
-            <button onClick={toggleSidebar} className="p-2 hover:bg-cmc-gray rounded-xl transition-colors">
+            <button onClick={toggleSidebar} className="btn-press p-2 hover:bg-cmc-gray rounded-xl transition-colors">
               <Menu size={20} className="text-cmc-text-light" />
             </button>
 
@@ -127,7 +128,7 @@ export default function Layout() {
             {user.role === 'RIVENDITORE' && (
               <button
                 onClick={() => navigate('/parts/cart')}
-                className="relative p-2 hover:bg-cmc-gray rounded-xl transition-colors"
+                className="btn-press icon-pop relative p-2 hover:bg-cmc-gray rounded-xl transition-colors"
               >
                 <ShoppingCart size={20} className="text-cmc-text-light" />
                 {cart.length > 0 && (
@@ -139,7 +140,7 @@ export default function Layout() {
             )}
 
             {/* Notifications */}
-            <button className="relative p-2 hover:bg-cmc-gray rounded-xl transition-colors">
+            <button className="btn-press icon-pop relative p-2 hover:bg-cmc-gray rounded-xl transition-colors">
               <Bell size={20} className="text-cmc-text-light" />
               <span className="absolute -top-0.5 -right-0.5 w-5 h-5 bg-cmc-danger text-white text-xs font-bold rounded-full flex items-center justify-center">
                 3
@@ -164,7 +165,9 @@ export default function Layout() {
 
         {/* Content */}
         <main className="flex-1 overflow-y-auto p-6 lg:p-8">
-          <Outlet />
+          <div key={location.pathname} className="page-enter">
+            <Outlet />
+          </div>
         </main>
       </div>
     </div>

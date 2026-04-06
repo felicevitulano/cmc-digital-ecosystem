@@ -40,9 +40,9 @@ export default function Login() {
 
       <div className="w-full max-w-lg">
         {/* Logo */}
-        <div className="text-center mb-12">
+        <div className="login-hero text-center mb-12">
           <div className="inline-flex items-center gap-3 mb-6">
-            <div className="w-16 h-16 rounded-2xl bg-cmc-lime flex items-center justify-center" style={{ boxShadow: '0 8px 32px rgba(231, 255, 137, 0.3)' }}>
+            <div className="w-16 h-16 rounded-2xl bg-cmc-lime flex items-center justify-center" style={{ boxShadow: '0 8px 32px rgba(233, 30, 140, 0.3)' }}>
               <span className="text-white font-extrabold text-2xl">CMC</span>
             </div>
           </div>
@@ -51,12 +51,12 @@ export default function Login() {
         </div>
 
         {/* Role cards */}
-        <div className="space-y-4">
+        <div className="space-y-4 stagger">
           {roles.map(({ role, icon: Icon, home }) => (
             <button
               key={role}
               onClick={() => handleLogin(role, home)}
-              className="w-full bg-white rounded-2xl p-5 flex items-center gap-4 transition-all group hover:translate-y-[-2px] border-l-4 border-cmc-lime"
+              className="login-card btn-press w-full bg-white rounded-2xl p-5 flex items-center gap-4 transition-all group hover:translate-y-[-2px] border-l-4 border-cmc-lime"
               style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.15)' }}
             >
               <div className="w-12 h-12 rounded-xl bg-cmc-lime/15 flex items-center justify-center group-hover:bg-cmc-lime/30 transition-colors">

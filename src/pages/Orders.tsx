@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useStore } from '../hooks/useStore';
 import { useTranslation } from '../hooks/useTranslation';
 import { orders, type OrderStatus } from '../data/mockData';
-import { Search, Clock, ChevronRight } from 'lucide-react';
+import { Search, Clock, ChevronRight, Package } from 'lucide-react';
+import EmptyState from '../components/EmptyState';
+import { SkeletonTable } from '../components/Skeleton';
 
 const statusColors: Record<OrderStatus, string> = {
   CONFERMATO: 'bg-blue-50 text-blue-700',
@@ -16,10 +18,17 @@ const statusColors: Record<OrderStatus, string> = {
 
 export default function Orders() {
   const { user } = useStore();
-  const { t } = useTranslation();
+  const { t, locale } = useTranslation();
   const [tab, setTab] = useState<'active' | 'history'>('active');
   const [statusFilter, setStatusFilter] = useState<string>('');
   const [search, setSearch] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    const timer = setTimeout(() => setLoading(false), 600);
+    return () => clearTimeout(timer);
+  }, [tab]);
 
   const dealerOrders = user?.role === 'CMC_ADMIN'
     ? orders
@@ -40,13 +49,13 @@ export default function Orders() {
       <div className="flex gap-1 bg-white rounded-xl p-1.5 w-fit" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
         <button
           onClick={() => setTab('active')}
-          className={`g-pill ${tab === 'active' ? 'g-pill-active' : 'g-pill-inactive'}`}
+          className={`g-pill btn-press ${tab === 'active' ? 'g-pill-active' : 'g-pill-inactive'}`}
         >
           {t('activeOrdersTab')}
         </button>
         <button
           onClick={() => setTab('history')}
-          className={`g-pill ${tab === 'history' ? 'g-pill-active' : 'g-pill-inactive'}`}
+          className={`g-pill btn-press ${tab === 'history' ? 'g-pill-active' : 'g-pill-inactive'}`}
         >
           {t('historyTab')}
         </button>
@@ -77,7 +86,8 @@ export default function Orders() {
       </div>
 
       {/* Table */}
-      <div className="g-card overflow-hidden">
+      {loading ? <SkeletonTable rows={4} /> : null}
+      <div className={`g-card overflow-hidden ${loading ? 'hidden' : ''}`}>
         <table className="w-full">
           <thead>
             <tr className="border-b border-cmc-border">
@@ -116,7 +126,9 @@ export default function Orders() {
             ))}
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={6} className="px-6 py-12 text-center text-cmc-text-light">{t('noResults')}</td>
+                <td colSpan={6}>
+                  <EmptyState icon={Package} title={t('noResults')} description={tab === 'active' ? (locale === 'it' ? 'Nessun ordine attivo trovato' : 'No active orders found') : (locale === 'it' ? 'Nessun ordine nello storico' : 'No orders in history')} />
+                </td>
               </tr>
             )}
           </tbody>

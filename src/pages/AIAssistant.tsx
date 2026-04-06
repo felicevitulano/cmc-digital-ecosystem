@@ -95,7 +95,7 @@ export default function AIAssistant() {
                 <button
                   key={i}
                   onClick={() => { setInput(s); }}
-                  className="text-xs bg-cmc-gray px-3.5 py-2 rounded-xl hover:bg-cmc-lime/20 transition-colors text-left max-w-[250px] font-medium"
+                  className="btn-press text-xs bg-cmc-gray px-3.5 py-2 rounded-xl hover:bg-cmc-lime/20 transition-colors text-left max-w-[250px] font-medium"
                 >
                   "{s}"
                 </button>
@@ -179,10 +179,10 @@ export default function AIAssistant() {
               <Bot size={16} className="text-cmc-lime" />
             </div>
             <div className="bg-cmc-gray rounded-2xl p-4">
-              <div className="flex gap-1">
-                <span className="w-2 h-2 bg-cmc-mid rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                <span className="w-2 h-2 bg-cmc-mid rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                <span className="w-2 h-2 bg-cmc-mid rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+              <div className="flex gap-1.5">
+                <span className="w-2 h-2 bg-cmc-mid rounded-full typing-dot" />
+                <span className="w-2 h-2 bg-cmc-mid rounded-full typing-dot" />
+                <span className="w-2 h-2 bg-cmc-mid rounded-full typing-dot" />
               </div>
             </div>
           </div>
@@ -204,7 +204,7 @@ export default function AIAssistant() {
         <button
           onClick={handleSend}
           disabled={!input.trim()}
-          className="px-5 py-3 bg-cmc-darker text-white font-bold rounded-2xl hover:bg-cmc-dark transition-colors disabled:opacity-40"
+          className="btn-press px-5 py-3 bg-cmc-darker text-white font-bold rounded-2xl hover:bg-cmc-dark transition-colors disabled:opacity-40"
         >
           <Send size={18} />
         </button>

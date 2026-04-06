@@ -1,12 +1,20 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useStore } from '../hooks/useStore';
 import { useTranslation } from '../hooks/useTranslation';
 import { orders, messages, documents } from '../data/mockData';
 import { Package, Mail, FileText, Wrench, ArrowRight, TrendingUp, Clock, ArrowUpRight, ArrowDownRight } from 'lucide-react';
+import { SkeletonStats } from '../components/Skeleton';
 
 export default function Dashboard() {
   const { user } = useStore();
   const { t } = useTranslation();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 800);
+    return () => clearTimeout(timer);
+  }, []);
 
   const dealerOrders = orders.filter((o) => o.dealerId === user?.dealerId);
   const activeOrders = dealerOrders.filter((o) => o.status !== 'CONSEGNATO');
@@ -39,7 +47,8 @@ export default function Dashboard() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {loading ? <SkeletonStats /> : null}
+      <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 stagger ${loading ? 'hidden' : ''}`}>
         <StatCard
           icon={Package}
           label={t('activeOrders')}
@@ -83,7 +92,7 @@ export default function Dashboard() {
               {t('viewAllOrders')} <ArrowRight size={14} />
             </Link>
           </div>
-          <div className="space-y-2">
+          <div className="space-y-2 stagger">
             {activeOrders.map((order) => (
               <Link
                 key={order.id}
@@ -168,7 +177,7 @@ function StatCard({ icon: Icon, label, value, change, changeType, accentColor }:
   icon: typeof Package; label: string; value: number; change: string; changeType: 'up' | 'down'; accentColor: string;
 }) {
   return (
-    <div className="g-card p-5">
+    <div className="g-card p-5 hover:shadow-md transition-all">
       <div className="flex items-center justify-between mb-3">
         <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${accentColor}`}>
           <Icon size={20} />
