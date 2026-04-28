@@ -28,7 +28,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return (
-    <BrowserRouter basename="/cmc-digital-ecosystem">
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <ToastContainer />
       <Routes>
         <Route path="/login" element={<Login />} />

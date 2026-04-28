@@ -2,9 +2,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
 
 @theme {
-  --color-cmc-dark: #1A1A2E;
-  --color-cmc-darker: #0F0F1A;
-  --color-cmc-lime: #E91E8C;
+  --color-cmc-dark: #212331;
+  --color-cmc-darker: #212331;
+  --color-cmc-lime: #D2000B;
   --color-cmc-gray: #F4F5F7;
   --color-cmc-mid: #9CA3AF;
   --color-cmc-text: #1A1A2E;
@@ -50,7 +50,7 @@ body {
 }
 
 .g-pill-active {
-  background: #E91E8C;
+  background: #D2000B;
   color: #ffffff;
 }
 
@@ -88,7 +88,7 @@ body {
 }
 
 .g-search:focus {
-  border-color: #E91E8C;
+  border-color: #D2000B;
   box-shadow: 0 0 0 3px rgba(233, 30, 140, 0.15);
 }
 
@@ -103,7 +103,7 @@ body {
 
 /* Sidebar nav active state */
 .g-nav-active {
-  background: #E91E8C;
+  background: #D2000B;
   color: #ffffff;
   border-radius: 12px;
   font-weight: 700;

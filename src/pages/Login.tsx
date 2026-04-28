@@ -28,7 +28,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4" style={{ background: 'linear-gradient(135deg, #0F0F1A 0%, #1A1A2E 50%, #4e5964 100%)' }}>
+    <div className="min-h-screen flex items-center justify-center p-4" style={{ background: 'linear-gradient(135deg, #181A28 0%, #212331 50%, #4E5964 100%)' }}>
       {/* Language toggle */}
       <button
         onClick={() => setLocale(locale === 'it' ? 'en' : 'it')}
@@ -42,8 +42,8 @@ export default function Login() {
         {/* Logo */}
         <div className="login-hero text-center mb-12">
           <div className="inline-flex items-center gap-3 mb-6">
-            <div className="w-16 h-16 rounded-2xl bg-cmc-lime flex items-center justify-center" style={{ boxShadow: '0 8px 32px rgba(233, 30, 140, 0.3)' }}>
-              <span className="text-white font-extrabold text-2xl">CMC</span>
+            <div className="w-16 h-16 rounded-2xl bg-cmc-lime flex items-center justify-center overflow-hidden" style={{ boxShadow: '0 8px 32px rgba(210, 0, 11, 0.3)' }}>
+              <img src={import.meta.env.BASE_URL + 'cmc-logo-white.png'} alt="CMC" className="w-12 h-auto object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display='none'; (e.target as HTMLImageElement).parentElement!.innerHTML='<span class=\"text-white font-extrabold text-2xl\">CMC</span>'; }} />
             </div>
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-3">Digital Ecosystem</h1>

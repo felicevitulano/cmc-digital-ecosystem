@@ -87,7 +87,8 @@ export default function Orders() {
 
       {/* Table */}
       {loading ? <SkeletonTable rows={4} /> : null}
-      <div className={`g-card overflow-hidden ${loading ? 'hidden' : ''}`}>
+      {/* Desktop table */}
+      <div className={`g-card overflow-hidden hidden sm:block ${loading ? '!hidden' : ''}`}>
         <table className="w-full">
           <thead>
             <tr className="border-b border-cmc-border">
@@ -133,6 +134,25 @@ export default function Orders() {
             )}
           </tbody>
         </table>
+      </div>
+
+      {/* Mobile card list */}
+      <div className={`sm:hidden space-y-3 stagger ${loading ? 'hidden' : ''}`}>
+        {filtered.map((order) => (
+          <Link key={order.id} to={`/orders/${order.id}`} className="g-card p-4 block hover:shadow-md transition-all">
+            <div className="flex items-center justify-between mb-2">
+              <span className="font-bold text-sm text-cmc-text">{order.id}</span>
+              <span className={`g-badge ${statusColors[order.status]}`}>{t(order.status)}</span>
+            </div>
+            <div className="text-sm text-cmc-text mb-1">{order.machineModel} {order.quantity > 1 ? `x${order.quantity}` : ''}</div>
+            <div className="text-xs text-cmc-text-light flex items-center gap-1">
+              <Clock size={12} /> {order.estimatedDelivery}
+            </div>
+          </Link>
+        ))}
+        {filtered.length === 0 && (
+          <EmptyState icon={Package} title={t('noResults')} description={tab === 'active' ? (locale === 'it' ? 'Nessun ordine attivo trovato' : 'No active orders found') : (locale === 'it' ? 'Nessun ordine nello storico' : 'No orders in history')} />
+        )}
       </div>
     </div>
   );

@@ -15,10 +15,18 @@ export default function Layout() {
   if (!user) return null;
 
   const navItems = getNavItems(user.role, t);
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024;
 
   const handleLogout = () => {
     logout();
     navigate('/login');
+  };
+
+  const handleNavClick = () => {
+    // Auto-close sidebar on mobile after navigation
+    if (isMobile && sidebarOpen) {
+      toggleSidebar();
+    }
   };
 
   return (
@@ -41,8 +49,8 @@ export default function Layout() {
       >
         {/* Logo */}
         <div className="flex items-center gap-3 px-5 h-16 flex-shrink-0">
-          <div className="w-9 h-9 rounded-xl bg-cmc-lime flex items-center justify-center flex-shrink-0">
-            <span className="text-white font-extrabold text-sm">CMC</span>
+          <div className="w-9 h-9 rounded-xl bg-cmc-lime flex items-center justify-center flex-shrink-0 overflow-hidden">
+            <img src={import.meta.env.BASE_URL + 'cmc-logo-white.png'} alt="CMC" className="w-7 h-auto object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display='none'; (e.target as HTMLImageElement).parentElement!.innerHTML='<span class=\"text-white font-extrabold text-sm\">CMC</span>'; }} />
           </div>
           <div className={`${sidebarOpen ? 'flex' : 'hidden lg:flex'} items-center justify-between flex-1`}>
             <span className="font-bold text-sm text-cmc-text whitespace-nowrap">Digital Ecosystem</span>
@@ -58,6 +66,7 @@ export default function Layout() {
             <NavLink
               key={item.to}
               to={item.to}
+              onClick={handleNavClick}
               className={({ isActive }) =>
                 `flex items-center gap-3 px-3 py-2.5 text-sm transition-all duration-200 ${
                   isActive
@@ -97,8 +106,8 @@ export default function Layout() {
       {/* Main */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
-        <header className="h-16 bg-white border-b border-cmc-border flex items-center justify-between px-6 flex-shrink-0" style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.04)' }}>
-          <div className="flex items-center gap-4">
+        <header className="h-14 sm:h-16 bg-white border-b border-cmc-border flex items-center justify-between px-3 sm:px-6 flex-shrink-0" style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.04)' }}>
+          <div className="flex items-center gap-2 sm:gap-4">
             <button onClick={toggleSidebar} className="btn-press p-2 hover:bg-cmc-gray rounded-xl transition-colors">
               <Menu size={20} className="text-cmc-text-light" />
             </button>
@@ -114,14 +123,14 @@ export default function Layout() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1 sm:gap-3">
             {/* Lang switch */}
             <button
               onClick={() => setLocale(locale === 'it' ? 'en' : 'it')}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-cmc-text-light hover:text-cmc-text hover:bg-cmc-gray rounded-xl transition-all"
+              className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 text-sm text-cmc-text-light hover:text-cmc-text hover:bg-cmc-gray rounded-xl transition-all"
             >
               <Globe size={16} />
-              <span className="font-semibold">{locale.toUpperCase()}</span>
+              <span className="font-semibold hidden sm:inline">{locale.toUpperCase()}</span>
             </button>
 
             {/* Cart (dealer only) */}
@@ -164,7 +173,7 @@ export default function Layout() {
         </header>
 
         {/* Content */}
-        <main className="flex-1 overflow-y-auto p-6 lg:p-8">
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
           <div key={location.pathname} className="page-enter">
             <Outlet />
           </div>
